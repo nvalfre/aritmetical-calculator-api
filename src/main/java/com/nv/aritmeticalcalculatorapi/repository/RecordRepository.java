@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface RecordRepository extends JpaRepository<Record, Long> {
-    List<Record> findByUserId(Long userId);
-    Page<Record> findByUserId(Long userId, Pageable pageable);
+    List<Record> findByUserId(String userId);
+    Page<Record> findByUserId(String userId, Pageable pageable);
 }

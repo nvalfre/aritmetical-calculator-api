@@ -23,11 +23,11 @@ public class CalculatorServiceImpl implements CalculatorService {
     @Override
     public CalculatorResponse calculate(String userName, CalculatorRequest calculatorRequest) {
         Optional<User> userById = userService.getUserByUsername(userName);
-        if (!userById.isPresent()) {
+        if (userById.isEmpty()) {
             throw new IllegalArgumentException();
         }
         Optional<Operation> operationByType = operationService.getOperationByType(calculatorRequest.getOperationType());
-        if (!operationByType.isPresent()) {
+        if (operationByType.isEmpty()) {
             throw new IllegalArgumentException();
         }
 
@@ -63,47 +63,51 @@ public class CalculatorServiceImpl implements CalculatorService {
     private double add(double num1, double num2, User user, Operation operation) {
         double val = num1 + num2;
         BigDecimal result = BigDecimal.valueOf(val);
-        Record record = new Record(operation, user, operation.getCost(), BigDecimal.ONE, result);
-        recordService.save(record);
+        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
         return val;
     }
 
     private double subtract(double num1, double num2, User user, Operation operation) {
         double val = num1;
         BigDecimal result = BigDecimal.valueOf(val - num2);
-        Record record = new Record(operation, user, operation.getCost(), BigDecimal.ONE, result);
-        recordService.save(record);
+        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
         return val;
     }
 
     private double multiply(double num1, double num2, User user, Operation operation) {
         double val = num1;
         BigDecimal result = BigDecimal.valueOf(val * num2);
-        Record record = new Record(operation, user, operation.getCost(), BigDecimal.ONE, result);
-        recordService.save(record);
+        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
         return val;
     }
 
     private double divide(double num1, double num2, User user, Operation operation) {
         double val = num1 / num2;
         BigDecimal result = BigDecimal.valueOf(val);
-        Record record = new Record(operation, user, operation.getCost(), BigDecimal.ONE, result);
-        recordService.save(record);
+        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
         return val;
     }
 
     private double squareRoot(double num, User user, Operation operation) {
         double val = Math.sqrt(num);
         BigDecimal result = BigDecimal.valueOf(val);
-        Record record = new Record(operation, user, operation.getCost(), BigDecimal.ONE, result);
-        recordService.save(record);
+        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
         return val;
     }
 
     private String generateRandomString(User user, Operation operation) {
         String result = randomStringGeneratorService.generate().replace("\n", "");
-        Record record = new Record(operation, user, operation.getCost(), BigDecimal.ONE, result);
-        recordService.save(record);
+        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
         return result;
+    }
+
+    private void save(Record operation, User user) {
+        Record record = operation;
+        user.setBalance(user.getBalance() - record.getOperation().getCost().doubleValue());
+        if (user.getBalance() <=0 ){
+            throw new IllegalStateException();
+        }
+        recordService.save(record);
+        userService.saveUser(user);
     }
 }

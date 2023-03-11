@@ -29,5 +29,6 @@ public class User {
     private String username;
     @NotBlank
     private String password;
+    private Double balance;
     private boolean active;
 }

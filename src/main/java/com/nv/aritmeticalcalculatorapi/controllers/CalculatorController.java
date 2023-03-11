@@ -16,7 +16,7 @@ public class CalculatorController {
     private final CalculatorService calculatorService;
     private final Gson gson;
 
-    @GetMapping(path = "/{userName}",  produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/{userName}",  produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> calculate(@PathVariable String userName,
                                        @RequestBody CalculatorRequest calculatorRequest) {
         CalculatorResponse result = calculatorService.calculate(userName, calculatorRequest);
