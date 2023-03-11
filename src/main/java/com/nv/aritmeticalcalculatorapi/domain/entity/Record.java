@@ -1,6 +1,7 @@
 package com.nv.aritmeticalcalculatorapi.domain.entity;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,8 +12,11 @@ import java.time.LocalDateTime;
 @Table(name = "records")
 public class Record {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+            name = "UUID",
+            strategy = "org.hibernate.id.UUIDGenerator")
+    private String id;
     @ManyToOne
     @JoinColumn(name = "operation_id")
     private Operation operation;

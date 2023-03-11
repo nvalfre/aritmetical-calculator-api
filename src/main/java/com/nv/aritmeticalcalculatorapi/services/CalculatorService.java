@@ -1,7 +1,8 @@
 package com.nv.aritmeticalcalculatorapi.services;
 
 import com.nv.aritmeticalcalculatorapi.domain.dto.CalculatorRequest;
+import com.nv.aritmeticalcalculatorapi.domain.dto.CalculatorResponse;
 
 public interface CalculatorService {
-    Object calculate(Long userId, CalculatorRequest calculatorRequest);
+    CalculatorResponse calculate(String userId, CalculatorRequest calculatorRequest);
 }

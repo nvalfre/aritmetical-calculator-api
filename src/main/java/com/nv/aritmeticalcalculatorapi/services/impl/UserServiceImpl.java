@@ -13,8 +13,8 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    public Optional<User> getUserById(Long id) {
-        return userRepository.findById(id);
+    public Optional<User> getUserById(String id) {
+        return userRepository.findById(Long.valueOf(id));
     }
 
     public Optional<User> getUserByUsername(String username) {
