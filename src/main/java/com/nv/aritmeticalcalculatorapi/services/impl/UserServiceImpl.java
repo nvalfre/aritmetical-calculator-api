@@ -13,9 +13,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
-    public Optional<User> getUserById(String id) {
-        return userRepository.findById(Long.valueOf(id));
-    }
 
     public Optional<User> getUserByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -25,7 +22,4 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-    public void deleteUserById(Long id) {
-        userRepository.deleteById(id);
-    }
 }

@@ -1,6 +1,7 @@
 package com.nv.aritmeticalcalculatorapi.services.impl;
 
 import com.nv.aritmeticalcalculatorapi.domain.dto.RecordDTO;
+import com.nv.aritmeticalcalculatorapi.domain.entity.Operation;
 import com.nv.aritmeticalcalculatorapi.domain.entity.Record;
 import com.nv.aritmeticalcalculatorapi.domain.entity.User;
 import com.nv.aritmeticalcalculatorapi.repository.RecordRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,10 +21,6 @@ public class RecordServiceImpl implements RecordService {
     private final RecordRepository recordRepository;
     private final UserService userService;
 
-    @Override
-    public Record saveRecord(Record record) {
-        return recordRepository.save(record);
-    }
 
     @Override
     public List<RecordDTO> getRecordsByUser(String username) {
@@ -37,6 +35,15 @@ public class RecordServiceImpl implements RecordService {
         recordRepository.save(record);
     }
 
+    @Override
+    public Record buildRecord(Operation operation, User user, BigDecimal result) {
+        return new Record(operation, user, operation.getCost(), BigDecimal.valueOf(user.getBalance()), result);
+    }
+
+    @Override
+    public Record buildRecord(Operation operation, User user, String result) {
+        return new Record(operation, user, operation.getCost(), BigDecimal.valueOf(user.getBalance()), result);
+    }
 
     private static RecordDTO getRecordDTO(Record it) {
         return RecordDTO.builder()

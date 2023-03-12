@@ -18,6 +18,7 @@ public class CalculatorServiceImpl implements CalculatorService {
     private final OperationService operationService;
     private final RecordService recordService;
     private final UserService userService;
+    private final BalanceService balanceService;
     private final RandomStringGeneratorService randomStringGeneratorService;
 
     @Override
@@ -63,51 +64,41 @@ public class CalculatorServiceImpl implements CalculatorService {
     private double add(double num1, double num2, User user, Operation operation) {
         double val = num1 + num2;
         BigDecimal result = BigDecimal.valueOf(val);
-        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
+        balanceService.save(operation, user, result);
         return val;
     }
 
     private double subtract(double num1, double num2, User user, Operation operation) {
         double val = num1;
         BigDecimal result = BigDecimal.valueOf(val - num2);
-        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
+        balanceService.save(operation, user, result);
         return val;
     }
 
     private double multiply(double num1, double num2, User user, Operation operation) {
         double val = num1;
         BigDecimal result = BigDecimal.valueOf(val * num2);
-        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
+        balanceService.save(operation, user, result);
         return val;
     }
 
     private double divide(double num1, double num2, User user, Operation operation) {
         double val = num1 / num2;
         BigDecimal result = BigDecimal.valueOf(val);
-        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
+        balanceService.save(operation, user, result);
         return val;
     }
 
     private double squareRoot(double num, User user, Operation operation) {
         double val = Math.sqrt(num);
         BigDecimal result = BigDecimal.valueOf(val);
-        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
+        balanceService.save(operation, user, result);
         return val;
     }
 
     private String generateRandomString(User user, Operation operation) {
         String result = randomStringGeneratorService.generate().replace("\n", "");
-        save(new Record(operation, user, operation.getCost(), BigDecimal.ONE, result), user);
+        balanceService.save(operation, user, result);
         return result;
-    }
-
-    private void save(Record operation, User user) {
-        Record record = operation;
-        user.setBalance(user.getBalance() - record.getOperation().getCost().doubleValue());
-        if (user.getBalance() <=0 ){
-            throw new IllegalStateException();
-        }
-        recordService.save(record);
-        userService.saveUser(user);
     }
 }
