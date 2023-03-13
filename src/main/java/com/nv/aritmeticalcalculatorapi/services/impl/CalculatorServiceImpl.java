@@ -75,17 +75,15 @@ public class CalculatorServiceImpl implements CalculatorService {
     }
 
     private double multiply(double num1, double num2, User user, Operation operation) {
-        double val = num1;
-        BigDecimal result = BigDecimal.valueOf(val * num2);
+        BigDecimal result = BigDecimal.valueOf(num1 * num2);
         balanceService.save(operation, user, result);
-        return val;
+        return result.doubleValue();
     }
 
     private double divide(double num1, double num2, User user, Operation operation) {
-        double val = num1 / num2;
-        BigDecimal result = BigDecimal.valueOf(val);
+        BigDecimal result = BigDecimal.valueOf(num1 / num2);
         balanceService.save(operation, user, result);
-        return val;
+        return result.doubleValue();
     }
 
     private double squareRoot(double num, User user, Operation operation) {
