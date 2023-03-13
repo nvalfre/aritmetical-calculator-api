@@ -118,7 +118,6 @@ Notes:
 ### Dockerfile commands
 
 ```jsx
-```jsx
 docker build -t <image_name> .
 docker tag <image_name> <tag_hub>/<image_name_tag>:<version>
 docker push <image_name_tag>:<version>
@@ -129,4 +128,20 @@ docker build -t aritmetical-calculator-api .
 docker tag aritmetical-calculator-api nvalfre/aritmetical-calculator-api:latest
 docker push nvalfre/aritmetical-calculator-api:latest
 docker run -d --name nv -p 8080:8080 nvalfre/aritmetical-calculator-api:latest
+```
+
+### Deploy
+```jsx
+docker images
+docker ps
+
+docker stop <instance>
+docker ps
+
+docker rm <container_name>
+docker images
+docker ps
+
+docker pull <image_name_tag>:<version>
+docker run -d --name <container_name> -p 8080:8080 <image_name_tag>:<version>
 ```
