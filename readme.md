@@ -113,3 +113,20 @@ curl --location --request GET 'http://100.25.130.184:8080/api/calculator/nv/bala
 Notes:
 
 - Be aware that the current token used on curls will expire after a certain period of time. If this happens, you will need to refresh the token by calling the login endpoint again.
+
+
+### Dockerfile commands
+
+```jsx
+```jsx
+docker build -t <image_name> .
+docker tag <image_name> <tag_hub>/<image_name_tag>:<version>
+docker push <image_name_tag>:<version>
+docker run -d --name <container_name> -p 8080:8080 <image_name_tag>:<version>
+```
+```jsx
+docker build -t aritmetical-calculator-api .
+docker tag aritmetical-calculator-api nvalfre/aritmetical-calculator-api:latest
+docker push nvalfre/aritmetical-calculator-api:latest
+docker run -d --name nv -p 8080:8080 nvalfre/aritmetical-calculator-api:latest
+```
