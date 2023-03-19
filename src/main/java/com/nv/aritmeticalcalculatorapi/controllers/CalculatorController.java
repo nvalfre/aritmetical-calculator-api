@@ -1,6 +1,5 @@
 package com.nv.aritmeticalcalculatorapi.controllers;
 
-import com.google.gson.Gson;
 import com.nv.aritmeticalcalculatorapi.domain.dto.CalculatorRequest;
 import com.nv.aritmeticalcalculatorapi.domain.dto.CalculatorResponse;
 import com.nv.aritmeticalcalculatorapi.services.CalculatorService;
@@ -12,14 +11,12 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/calculator")
 @RequiredArgsConstructor
-public class CalculatorController {
+public class CalculatorController extends AbstractController{
     private final CalculatorService calculatorService;
-    private final Gson gson;
 
     @PostMapping(path = "/{userName}",  produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> calculate(@PathVariable String userName,
+    public ResponseEntity<CalculatorResponse> calculate(@PathVariable String userName,
                                        @RequestBody CalculatorRequest calculatorRequest) {
-        CalculatorResponse result = calculatorService.calculate(userName, calculatorRequest);
-        return ResponseEntity.ok(gson.toJson(result));
+        return ResponseEntity.ok(calculatorService.calculate(userName, calculatorRequest));
     }
 }

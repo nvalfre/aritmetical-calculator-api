@@ -17,7 +17,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class OperationServiceImplTest {
+class OperationCalculatorServiceImplTest {
 
     @Mock
     private OperationRepository operationRepository;

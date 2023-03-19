@@ -1,6 +1,5 @@
 package com.nv.aritmeticalcalculatorapi.services.impl;
 
-import com.nv.aritmeticalcalculatorapi.repository.OperationRepository;
 import com.nv.aritmeticalcalculatorapi.rest.RandomStringRestService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -29,9 +28,9 @@ class RandomStringGeneratorServiceImplTest {
     @Test
     public void testGenerateRandomString() {
         String randomstr = "strts";
-        when(randomStringRestService.getRandomString()).thenReturn(randomstr.describeConstable());
+        when(randomStringRestService.getRandomString(123, 123)).thenReturn(randomstr.describeConstable());
 
-        String generate = randomStringGeneratorService.generate();
+        String generate = randomStringGeneratorService.generate(123, 123);
 
         assertEquals(randomstr, generate);
     }

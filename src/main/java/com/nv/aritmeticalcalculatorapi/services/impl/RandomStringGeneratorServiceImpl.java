@@ -13,28 +13,24 @@ import java.util.Random;
 @Slf4j
 @RequiredArgsConstructor
 public class RandomStringGeneratorServiceImpl implements RandomStringGeneratorService {
-    private static final int DEFAULT_LENGTH = 10;
-    private static final String ALPHA_NUMERIC_STRING = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final int DEFAULT_NUM = 10;
     private final RandomStringRestService randomStringRestService;
 
-    public String generate() {
+    public String generate(int num, int length) {
         try {
-            Optional<String> randomString = randomStringRestService.getRandomString();
-            return randomString.orElseGet(RandomStringGeneratorServiceImpl::defaultRandomString);
+            Optional<String> randomString = randomStringRestService.getRandomString(getNum(num), getLength(length));
+            return randomString.orElseThrow(IllegalArgumentException::new).replace("\n", "");
         } catch (Exception e) {
             log.error("Error generating random string: ", e);
-            return defaultRandomString();
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    private static String defaultRandomString() {
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder(DEFAULT_LENGTH);
-        for (int i = 0; i < DEFAULT_LENGTH; i++) {
-            int index = random.nextInt(ALPHA_NUMERIC_STRING.length());
-            char c = ALPHA_NUMERIC_STRING.charAt(index);
-            sb.append(c);
-        }
-        return sb.toString();
+    private static int getLength(int length) {
+        return length > 0 && length <= 20 ? length : DEFAULT_NUM;
+    }
+
+    private static double getNum(double num) {
+        return num > 0 && num <= 20 ? num : DEFAULT_NUM;
     }
 }

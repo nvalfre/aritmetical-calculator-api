@@ -25,7 +25,7 @@ CREATE TABLE records
     user_id            BIGINT         NOT NULL,
     amount             NUMERIC(18, 2) NOT NULL,
     user_balance       NUMERIC(18, 2) NOT NULL,
-    operation_response NUMERIC(1000)  NOT NULL,
+    operation_response VARCHAR(250)  NOT NULL,
     date               TIMESTAMP      NOT NULL,
     deleted            BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (operation_id) REFERENCES operations (id),

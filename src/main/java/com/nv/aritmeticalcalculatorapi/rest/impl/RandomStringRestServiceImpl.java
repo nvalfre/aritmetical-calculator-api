@@ -15,11 +15,11 @@ public class RandomStringRestServiceImpl implements RandomStringRestService {
     @Value("${baseUrl}")
     private String baseUrl;
 
-    public Optional<String> getRandomString()  {
+    public Optional<String> getRandomString(double num, int length)  {
         RestTemplate restTemplate = new RestTemplate();
         UriComponentsBuilder builder = UriComponentsBuilder.fromUriString(baseUrl)
-                .queryParam("num", 10)
-                .queryParam("len", 10)
+                .queryParam("num", num)
+                .queryParam("len", length)
                 .queryParam("unique", "on")
                 .queryParam("format", "plain")
                 .queryParam("rnd", "new")
