@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.math.BigDecimal;
+import javax.transaction.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,12 +25,7 @@ public class BalanceServiceImpl implements BalanceService {
     }
 
     @Override
-    public void save(Operation operation, User user, BigDecimal result) {
-        final Record record = recordService.buildRecord(operation, user, result);
-        this.update(user, operation, record);
-    }
-
-    @Override
+    @Transactional
     public void save(Operation operation, User user, String result) {
         final Record record = recordService.buildRecord(operation, user, result);
         this.update(user, operation, record);
@@ -41,8 +36,8 @@ public class BalanceServiceImpl implements BalanceService {
         if (user.getBalance() <= 0) {
             throw new IllegalStateException();
         }
-        userService.saveUser(user);
         recordService.save(record);
+        userService.saveUser(user);
     }
 
     private static double updateBalance(Operation operation, User user) {
